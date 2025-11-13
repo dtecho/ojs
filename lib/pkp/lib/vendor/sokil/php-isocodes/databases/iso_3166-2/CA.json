@@ -1,1 +1,3 @@
-[{"code":"CA-AB","name":"Alberta","type":"Province"},{"code":"CA-BC","name":"British Columbia","type":"Province"},{"code":"CA-MB","name":"Manitoba","type":"Province"},{"code":"CA-NB","name":"New Brunswick","type":"Province"},{"code":"CA-NL","name":"Newfoundland and Labrador","type":"Province"},{"code":"CA-NS","name":"Nova Scotia","type":"Province"},{"code":"CA-NT","name":"Northwest Territories","type":"Territory"},{"code":"CA-NU","name":"Nunavut","type":"Territory"},{"code":"CA-ON","name":"Ontario","type":"Province"},{"code":"CA-PE","name":"Prince Edward Island","type":"Province"},{"code":"CA-QC","name":"Quebec","type":"Province"},{"code":"CA-SK","name":"Saskatchewan","type":"Province"},{"code":"CA-YT","name":"Yukon Territory","type":"Territory"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:89ebd41544086f9370f04d66c7d313fa71b5f3b9044bc1c2039eb6835d2a8112
+size 757

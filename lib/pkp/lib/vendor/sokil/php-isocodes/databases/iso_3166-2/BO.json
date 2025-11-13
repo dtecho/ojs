@@ -1,1 +1,3 @@
-[{"code":"BO-B","name":"El Beni","type":"Department"},{"code":"BO-C","name":"Cochabamba","type":"Department"},{"code":"BO-H","name":"Chuquisaca","type":"Department"},{"code":"BO-L","name":"La Paz","type":"Department"},{"code":"BO-N","name":"Pando","type":"Department"},{"code":"BO-O","name":"Oruro","type":"Department"},{"code":"BO-P","name":"Potos\u00ed","type":"Department"},{"code":"BO-S","name":"Santa Cruz","type":"Department"},{"code":"BO-T","name":"Tarija","type":"Department"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:4b63745648143b99c8e38449722e26ea48bca2f70940e8d300c095c16ff493e9
+size 485

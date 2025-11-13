@@ -1,22 +1,3 @@
-{
-	"env": {
-		"contextTitles": {
-			"en_US": "Journal of Public Knowledge",
-			"fr_CA": "Journal de la connaissance du public"
-		},
-		"contextDescriptions": {
-			"en_US": "The Journal of Public Knowledge is a peer-reviewed quarterly publication on the subject of public access to science.",
-			"fr_CA": "Le Journal de Public Knowledge est une publication trimestrielle évaluée par les pairs sur le thème de l'accès du public à la science."
-		},
-		"contextAcronyms": {
-			"en_US": "JPK"
-		},
-		"defaultGenre": "Article Text"
-	},
-	"integrationFolder": "cypress/tests",
-	"pluginsFile": "lib/pkp/cypress/plugins/index.js",
-	"watchForFileChanges": false,
-	"defaultCommandTimeout": 10000,
-	"video": false,
-	"numTestsKeptInMemory": 0
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:7825dae0cffdcd2fd33a09e370e545e8262e8f14458859e3c01bfca016a9619f
+size 734

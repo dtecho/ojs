@@ -1,1 +1,3 @@
-[{"code":"SB-CE","name":"Central","type":"Province"},{"code":"SB-CH","name":"Choiseul","type":"Province"},{"code":"SB-CT","name":"Capital Territory (Honiara)","type":"Capital territory"},{"code":"SB-GU","name":"Guadalcanal","type":"Province"},{"code":"SB-IS","name":"Isabel","type":"Province"},{"code":"SB-MK","name":"Makira","type":"Province"},{"code":"SB-ML","name":"Malaita","type":"Province"},{"code":"SB-RB","name":"Rennell and Bellona","type":"Province"},{"code":"SB-TE","name":"Temotu","type":"Province"},{"code":"SB-WE","name":"Western","type":"Province"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:40112ca81c00cad998d8800f8fb97663a9ddb0ef5473933007c554ce05625fac
+size 564

@@ -1,24 +1,3 @@
-{
-    "name": "league/mime-type-detection",
-    "description": "Mime-type detection for Flysystem",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Frank de Jonge",
-            "email": "info@frankdejonge.nl"
-        }
-    ],
-    "require": {
-        "php": "^7.2 || ^8.0",
-        "ext-fileinfo": "*"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.5.8",
-        "phpstan/phpstan": "^0.12.36"
-    },
-    "autoload": {
-        "psr-4": {
-            "League\\MimeTypeDetection\\": "src"
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f637bf63c9d798bc14bd3cc224e85c05e3b40d9e49838df677127792291c5999
+size 538

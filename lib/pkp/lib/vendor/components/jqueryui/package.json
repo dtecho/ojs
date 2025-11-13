@@ -1,16 +1,3 @@
-{
-    "name": "components-jqueryui",
-    "description": "A curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library.",
-    "version": "1.12.1",
-    "homepage": "http://jqueryui.com",
-    "author": {
-        "name": "jQuery Foundation and other contributors",
-        "url": "https://github.com/jquery/jquery-ui/blob/master/AUTHORS.txt"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/components/jqueryui.git"
-    },
-    "main": "jquery-ui.js",
-    "license": "MIT"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5ca2e96237510a50c049b5d01edeb9398bdfba8c32f5abeca93264dd057da4af
+size 564

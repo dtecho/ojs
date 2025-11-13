@@ -1,1 +1,3 @@
-[{"code":"SN-DB","name":"Diourbel","type":"Region"},{"code":"SN-DK","name":"Dakar","type":"Region"},{"code":"SN-FK","name":"Fatick","type":"Region"},{"code":"SN-KA","name":"Kaffrine","type":"Region"},{"code":"SN-KD","name":"Kolda","type":"Region"},{"code":"SN-KE","name":"K\u00e9dougou","type":"Region"},{"code":"SN-KL","name":"Kaolack","type":"Region"},{"code":"SN-LG","name":"Louga","type":"Region"},{"code":"SN-MT","name":"Matam","type":"Region"},{"code":"SN-SE","name":"S\u00e9dhiou","type":"Region"},{"code":"SN-SL","name":"Saint-Louis","type":"Region"},{"code":"SN-TC","name":"Tambacounda","type":"Region"},{"code":"SN-TH","name":"Thi\u00e8s","type":"Region"},{"code":"SN-ZG","name":"Ziguinchor","type":"Region"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:43e731ef5a55c549815646c0536f01ccdf271601f93d09ac6b2670ac34ee84a5
+size 719

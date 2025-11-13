@@ -1,1 +1,3 @@
-[{"code":"PK-BA","name":"Balochistan","type":"Province"},{"code":"PK-GB","name":"Gilgit-Baltistan","type":"Area"},{"code":"PK-IS","name":"Islamabad","type":"Capital territory"},{"code":"PK-JK","name":"Azad Kashmir","type":"Area"},{"code":"PK-KP","name":"Khyber Pakhtunkhwa","type":"Province"},{"code":"PK-PB","name":"Punjab","type":"Province"},{"code":"PK-SD","name":"Sindh","type":"Province"},{"code":"PK-TA","name":"Federally Administered Tribal Areas","type":"Territory"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:05e3da03b8f2e2208b41ae82bc9f44b25b91fd855cbda817b593217968f01752
+size 475

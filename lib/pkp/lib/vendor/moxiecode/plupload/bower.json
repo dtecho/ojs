@@ -1,27 +1,3 @@
-{
-	"name": "plupload",
-	"license": "AGPLv3",
-	"authors": [
-		"Davit Barbakadze <davit.barbakadze@ephox.com>"
-	],
-	"homepage": "http://plupload.com",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/moxiecode/plupload.git"
-	},
-	"main": [
-		"./js/plupload.full.min.js"
-	],
-	"ignore": [
-		"tests/",
-		"src/",
-		"build/",
-		"examples/",
-		"Jakefile.js",
-		"package.json",
-		"bower.json",
-		"composer.json",
-		"README.md",
-		".*"
-	]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:efeff1059ada55da3aa57f146880d8531f0e67e30b40848efaeac071bdd138d8
+size 443
