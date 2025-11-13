@@ -1,1 +1,3 @@
-[{"code":"HT-AR","name":"Artibonite","type":"Department"},{"code":"HT-CE","name":"Centre","type":"Department"},{"code":"HT-GA","name":"Grande-Anse","type":"Department"},{"code":"HT-ND","name":"Nord","type":"Department"},{"code":"HT-NE","name":"Nord-Est","type":"Department"},{"code":"HT-NO","name":"Nord-Ouest","type":"Department"},{"code":"HT-OU","name":"Ouest","type":"Department"},{"code":"HT-SD","name":"Sud","type":"Department"},{"code":"HT-SE","name":"Sud-Est","type":"Department"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:883beeb3e212a80ba2b105b0e2120a7a0ed348649d5c442de505e3bae0d0ecf3
+size 488

@@ -1,16 +1,3 @@
-{
-    "name": "jquery",
-    "version": "3.5.1",
-    "description": "jQuery component",
-    "license": "MIT",
-    "keywords": [
-        "jquery",
-        "component"
-    ],
-    "main": "jquery.js",
-    "ignore": [
-        "component.json",
-        "package.json",
-        "composer.json"
-    ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b9aa47ff5fad0a729142958f05bfc3bbebd1e579271cb6da689cec8a95e0257c
+size 295

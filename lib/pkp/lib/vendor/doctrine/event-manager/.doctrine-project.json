@@ -1,18 +1,3 @@
-{
-    "active": true,
-    "name": "Event Manager",
-    "slug": "event-manager",
-    "docsSlug": "doctrine-event-manager",
-    "versions": [
-        {
-            "name": "1.0",
-            "branchName": "master",
-            "slug": "latest",
-            "current": true,
-            "aliases": [
-                "current",
-                "stable"
-            ]
-        }
-    ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b3e7dd6392dca2189d188278e960e2db65fecb07783e52d5049a1add1609f487
+size 381

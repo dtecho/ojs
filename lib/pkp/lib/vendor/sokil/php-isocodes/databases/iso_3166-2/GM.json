@@ -1,1 +1,3 @@
-[{"code":"GM-B","name":"Banjul","type":"City"},{"code":"GM-L","name":"Lower River","type":"Division"},{"code":"GM-M","name":"Central River","type":"Division"},{"code":"GM-N","name":"North Bank","type":"Division"},{"code":"GM-U","name":"Upper River","type":"Division"},{"code":"GM-W","name":"Western","type":"Division"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:1b01f7ea514302d22f421a3ab6925222a83cefcd8494a606d9a0b0a476019b61
+size 319

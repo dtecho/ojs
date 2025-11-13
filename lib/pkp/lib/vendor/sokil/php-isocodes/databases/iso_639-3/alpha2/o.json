@@ -1,1 +1,3 @@
-[{"name":"Occitan (post 1500)","alpha_3":"oci","scope":"I","type":"L","inverted_name":null,"alpha_2":"oc"},{"name":"Ojibwa","alpha_3":"oji","scope":"M","type":"L","inverted_name":null,"alpha_2":"oj"},{"name":"Oriya (macrolanguage)","alpha_3":"ori","scope":"M","type":"L","inverted_name":null,"alpha_2":"or"},{"name":"Oromo","alpha_3":"orm","scope":"M","type":"L","inverted_name":null,"alpha_2":"om"},{"name":"Ossetian","alpha_3":"oss","scope":"I","type":"L","inverted_name":null,"alpha_2":"os"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:88bd45faaae88ca65c20a9c9c3dac6dad8616de914021d92742d89dd3ce5b0fd
+size 495

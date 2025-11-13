@@ -1,1 +1,3 @@
-[{"code":"MM-01","name":"Sagaing","type":"Division"},{"code":"MM-02","name":"Bago","type":"Division"},{"code":"MM-03","name":"Magway","type":"Division"},{"code":"MM-04","name":"Mandalay","type":"Division"},{"code":"MM-05","name":"Tanintharyi","type":"Division"},{"code":"MM-06","name":"Yangon","type":"Division"},{"code":"MM-07","name":"Ayeyarwady","type":"Division"},{"code":"MM-11","name":"Kachin","type":"State"},{"code":"MM-12","name":"Kayah","type":"State"},{"code":"MM-13","name":"Kayin","type":"State"},{"code":"MM-14","name":"Chin","type":"State"},{"code":"MM-15","name":"Mon","type":"State"},{"code":"MM-16","name":"Rakhine","type":"State"},{"code":"MM-17","name":"Shan","type":"State"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:dd7cf6be4573554bf2da76e2ab193bfdf23f90ec21b112385d5f5f4051ec610a
+size 696

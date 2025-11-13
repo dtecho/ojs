@@ -1,13 +1,3 @@
-{
-  "name": "jquery-ui",
-  "version": "1.12.1",
-  "main": [
-    "jquery-ui.js"
-  ],
-  "ignore": [
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "jquery": ">=1.6"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:373210889703d1f51b42126bbaf9afdb772ab1a55b8cc89c292e99cfcc82c620
+size 171

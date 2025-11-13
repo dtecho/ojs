@@ -1,22 +1,3 @@
-{
-    "name": "jquery",
-    "repo": "components/jquery",
-    "version": "3.5.1",
-    "description": "jQuery component",
-    "license": "MIT",
-    "keywords": [
-        "jquery",
-        "component"
-    ],
-    "main": "jquery.js",
-    "scripts": [
-        "jquery.js",
-        "jquery.min.js",
-        "jquery.slim.js",
-        "jquery.slim.min.js"
-    ],
-    "files": [
-        "jquery.min.map",
-        "jquery.slim.min.map"
-    ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:62c2d58d83a3eef57ca77568a3a564d8dddb87dd616e1249813a51506a3c0306
+size 434

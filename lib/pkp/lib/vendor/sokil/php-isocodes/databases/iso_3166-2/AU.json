@@ -1,1 +1,3 @@
-[{"code":"AU-ACT","name":"Australian Capital Territory","type":"Territory"},{"code":"AU-NSW","name":"New South Wales","type":"State"},{"code":"AU-NT","name":"Northern Territory","type":"Territory"},{"code":"AU-QLD","name":"Queensland","type":"State"},{"code":"AU-SA","name":"South Australia","type":"State"},{"code":"AU-TAS","name":"Tasmania","type":"State"},{"code":"AU-VIC","name":"Victoria","type":"State"},{"code":"AU-WA","name":"Western Australia","type":"State"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:3f069bafba20177e8d06e662ac9bbddd7e7fe5815a42b89ab032d567c9a642b3
+size 469

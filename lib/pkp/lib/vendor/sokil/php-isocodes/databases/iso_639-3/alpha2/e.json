@@ -1,1 +1,3 @@
-[{"name":"Modern Greek (1453-)","alpha_3":"ell","scope":"I","type":"L","inverted_name":"Greek, Modern (1453-)","alpha_2":"el"},{"name":"English","alpha_3":"eng","scope":"I","type":"L","inverted_name":null,"alpha_2":"en"},{"name":"Esperanto","alpha_3":"epo","scope":"I","type":"C","inverted_name":null,"alpha_2":"eo"},{"name":"Estonian","alpha_3":"est","scope":"M","type":"L","inverted_name":null,"alpha_2":"et"},{"name":"Basque","alpha_3":"eus","scope":"I","type":"L","inverted_name":null,"alpha_2":"eu"},{"name":"Ewe","alpha_3":"ewe","scope":"I","type":"L","inverted_name":null,"alpha_2":"ee"},{"name":"Spanish","alpha_3":"spa","scope":"I","type":"L","inverted_name":null,"alpha_2":"es"}]
+version https://git-lfs.github.com/spec/v1
+oid sha256:ec7d2c6ae4dd5722ffa4bfa8988ae7eaf0107e86f3e73b868c9b73e0a05c27f7
+size 689

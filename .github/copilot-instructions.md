@@ -175,16 +175,29 @@ python -m pytest tests/
 ```
 /
 ├── index.php                    # OJS main entry point
-├── config.inc.php              # Main OJS configuration
+├── config.inc.php              # Main OJS configuration (copy from config.TEMPLATE.inc.php)
 ├── classes/                    # OJS core classes
 ├── lib/pkp/                   # PKP library (core OJS framework)
 ├── plugins/                   # OJS plugins
+│   └── generic/skzAgents/     # OJS-SKZ bridge plugin (PHP integration)
 ├── skz-integration/           # SKZ autonomous agents framework
-│   ├── autonomous-agents-framework/    # Main agent services
-│   ├── skin-zone-journal/             # Specialized journal backend
-│   ├── workflow-visualization-dashboard/  # React dashboard
-│   ├── simulation-dashboard/          # Agent simulation interface
-│   └── microservices/                # Individual agent microservices
+│   ├── .env.template          # Environment configuration template
+│   ├── autonomous-agents-framework/    # Main agent services (Flask + Python)
+│   │   ├── src/
+│   │   │   ├── main.py        # Main Flask application entry point
+│   │   │   ├── routes/        # API route handlers
+│   │   │   ├── models/        # AI models and agent logic
+│   │   │   ├── services/      # Communication, ML decision engines
+│   │   │   └── providers/     # External service integrations (SendGrid, AWS SES)
+│   │   ├── venv/              # Python virtual environment (create with python3 -m venv venv)
+│   │   └── requirements.txt   # Python dependencies (includes torch, transformers, llama-cpp)
+│   ├── skin-zone-journal/     # Specialized journal backend
+│   ├── workflow-visualization-dashboard/  # React dashboard (Node.js)
+│   ├── simulation-dashboard/  # Agent simulation interface (Node.js)
+│   ├── microservices/         # Individual agent microservices (7 agents + gateway)
+│   ├── schema/                # Database schema extensions
+│   │   └── skz-agents.sql     # Agent state, communications, metrics tables
+│   └── scripts/               # Deployment and health check utilities
 └── deploy-skz-integration.sh   # Automated deployment script
 ```
 
@@ -216,7 +229,38 @@ curl http://localhost:5000/api/v1/agents  # Verify agent integration works
 
 - **MySQL 5.7+ or 8.0+** (confirmed available)
 - **Run schema manually:** `mysql -u [user] -p [database] < skz-integration/schema/skz-agents.sql`
-- **Additional tables:** Agent states, communications, workflow automation
+- **Additional tables:** 
+  - `skz_agent_states` - Agent state tracking and persistence
+  - `skz_agent_communications` - Inter-agent communication logs
+  - `skz_workflow_automation` - Workflow automation tracking
+  - `skz_agent_metrics` - Performance metrics (efficiency, accuracy, response_time)
+  - `skz_agent_settings` - Agent configuration settings
+
+## Architecture Patterns
+
+### Multi-Layer Architecture
+1. **OJS Core (PHP)** - Traditional academic publishing system
+2. **SKZ Plugin Layer (PHP)** - Bridge between OJS and agents (`plugins/generic/skzAgents/`)
+   - `SKZAgentBridge.inc.php` - Main integration bridge
+   - `ManuscriptAutomationBridge.inc.php` - Manuscript workflow automation
+   - `SKZAPIGateway.inc.php` - API routing and authentication
+3. **Agent Framework (Python)** - 7 autonomous agents with Flask APIs
+4. **External Services** - Email (SendGrid/AWS SES), AI models (llama.cpp, BERT)
+
+### Agent Communication Protocol
+- **REST API** - All agents expose HTTP endpoints (ports 5000-5007)
+- **API Gateway Pattern** - Central routing via `api-gateway/` microservice
+- **Event-Driven** - Agents communicate via JSON messages with action types
+- **State Management** - Agent states persisted in MySQL via `skz_agent_states` table
+
+### Provider-Backed Implementations
+Toggle production vs. development mode via environment variable:
+```bash
+USE_PROVIDER_IMPLEMENTATIONS=true  # Production: real SendGrid, AWS SES, AI models
+USE_PROVIDER_IMPLEMENTATIONS=false # Development: local implementations
+```
+
+Located in `skz-integration/autonomous-agents-framework/src/providers/factory.py`
 
 ## Production Deployment
 
@@ -278,7 +322,130 @@ See [.github/copilot-prompt-seed.md](./copilot-prompt-seed.md) for foundational 
 - **SET LONG TIMEOUTS:** 60+ minutes for builds, 30+ minutes for tests
 - **VALIDATE THOROUGHLY:** Always test complete workflows after changes
 - **ANSWER PROMPTS:** Composer will ask to trust plugins - answer "y"
-- **NEVER USE SIMPLE PYTHON:** Use `main.py` NEVER SACRIFICE QUALITY!!!!
+- **NEVER USE SIMPLE PYTHON:** Use `main.py` not simplified versions
 - **NETWORK ISSUES:** Python pip installs may timeout - retry if needed
 - **HEALTH CHECK:** Always run `./skz-integration/scripts/health-check.sh` to verify system state
 - **AI INFERENCE:** Always verify AI models are loaded and functional before deployment
+
+## Agent Development Patterns
+
+### Adding a New Agent
+1. Create microservice in `skz-integration/microservices/<agent-name>/`
+2. Add to `AgentType` enum in `seven_agents.py`
+3. Implement agent class extending base patterns
+4. Register in API gateway routing
+5. Add health check endpoint
+6. Update database schema if needed
+
+### Agent Action Pattern
+```python
+def execute_action(self, action_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    """All agents follow this signature for action execution"""
+    # Validate action type
+    # Process data with AI inference (NEVER use mocks)
+    # Update agent state
+    # Return structured response
+    return {"success": bool, "result": Any, "agent_state": Dict}
+```
+
+### Configuration Management
+- Environment variables in `.env` (copy from `.env.template`)
+- Agent-specific config in `skz_agent_settings` table
+- Runtime config via Flask app config
+- Secrets NEVER committed to git
+
+### Testing Strategy
+```bash
+# Unit tests for individual agents
+cd skz-integration/autonomous-agents-framework
+python -m pytest tests/
+
+# Integration tests (requires running services)
+python tests/test_phase2_integration.py
+
+# End-to-end workflow tests
+python demo_manuscript_automation.py
+```
+
+## Common Error Resolution
+
+### ModuleNotFoundError in Python
+- **Cause:** Complex import paths in agent framework
+- **Solution:** Always activate venv and run from correct directory
+```bash
+cd skz-integration/autonomous-agents-framework
+source venv/bin/activate
+python src/main.py  # Not python main.py
+```
+
+### Port Already in Use
+- **Cause:** Previous agent instances still running
+- **Solution:** Kill processes or use different ports
+```bash
+lsof -ti:5000 | xargs kill -9  # Kill process on port 5000
+# Or change port in .env file
+```
+
+### Database Connection Errors
+- **Cause:** MySQL not running or wrong credentials in .env
+- **Solution:** Verify MySQL service and update DATABASE_* variables
+```bash
+mysql -u root -p  # Test connection
+# Update .env with correct DATABASE_USER, DATABASE_PASSWORD
+```
+
+### AI Model Loading Failures
+- **Cause:** Missing model files or insufficient memory
+- **Solution:** Download models or use quantized versions
+```bash
+# Check model path exists
+ls -lh ./models/*.gguf
+# Use smaller quantized model if memory limited
+export AI_MODEL_PATH="./models/llama-2-7b-chat.q4_0.gguf"
+```
+
+## Manuscript Processing Workflow
+
+The system automates the complete manuscript lifecycle across 7 agents:
+
+### Workflow Stages
+1. **Submission** → Research Discovery Agent analyzes literature gaps
+2. **Initial Review** → Submission Assistant validates format/compliance
+3. **Editorial Assignment** → Editorial Orchestration routes to reviewers
+4. **Peer Review** → Review Coordination manages reviewer matching
+5. **Quality Check** → Content Quality Agent scores manuscript
+6. **Production** → Publishing Production Agent formats output
+7. **Analytics** → Analytics Monitoring Agent tracks metrics
+
+### API Endpoint Pattern
+All agent endpoints follow consistent structure:
+```
+POST /api/v1/agents/{agent_name}/action
+{
+  "action_type": "analyze_manuscript",
+  "data": { ... },
+  "context_id": "uuid",
+  "priority": 1-3
+}
+```
+
+### Automation Control API
+```python
+# Submit manuscript for automation
+POST /api/v1/automation/submit
+{
+  "id": "manuscript_123",
+  "title": "...",
+  "authors": [...],
+  "priority": 2  # AutomationPriority: ROUTINE=1, HIGH=2, URGENT=3
+}
+
+# Get workflow status
+GET /api/v1/automation/status/{workflow_id}
+
+# Control automation
+POST /api/v1/automation/pause/{workflow_id}
+POST /api/v1/automation/resume/{workflow_id}
+```
+
+Located in: `skz-integration/autonomous-agents-framework/src/routes/manuscript_automation_api.py`

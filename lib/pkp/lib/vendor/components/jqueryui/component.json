@@ -1,13 +1,3 @@
-{
-  "name": "jquery-ui",
-  "repo": "components/jqueryui",
-  "version": "1.12.1",
-  "license": "MIT",
-  "scripts": [
-    "jquery-ui.js"
-  ],
-  "main": "jquery-ui.js",
-  "dependencies": {
-    "components/jquery": "*"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4280790f6a78004e2ec67f0aa7d0e177e2bd76d1630105d4d0d8a328125564d7
+size 221
