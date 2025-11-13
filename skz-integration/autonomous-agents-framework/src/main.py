@@ -14,11 +14,24 @@ import time
 # Import manuscript automation components
 from routes.manuscript_automation_api import manuscript_automation_bp, init_automation
 
+# Import agent autonomy API
+try:
+    from routes.autonomy_api import autonomy_api_bp
+    AUTONOMY_AVAILABLE = True
+except ImportError as e:
+    print(f"⚠️  Agent autonomy features not available: {e}")
+    AUTONOMY_AVAILABLE = False
+
 app = Flask(__name__)
 CORS(app)
 
 # Register manuscript automation blueprint
 app.register_blueprint(manuscript_automation_bp)
+
+# Register autonomy API if available
+if AUTONOMY_AVAILABLE:
+    app.register_blueprint(autonomy_api_bp)
+    print("✅ Agent Autonomy API registered successfully")
 
 # In-memory storage for demo purposes
 agents_data = {

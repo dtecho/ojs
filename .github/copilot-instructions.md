@@ -2,9 +2,97 @@
 
 Enhanced Open Journal Systems (OJS) integrated with the SKZ (Skin Zone Journal) autonomous agents framework for intelligent academic publishing workflow automation.
 
-Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
+**Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.**
+
+## 📋 Table of Contents
+- [Working Effectively](#working-effectively) - Setup, builds, tests, running the app
+- [Architecture & Integration](#architecture-patterns) - Multi-layer architecture, agent communication
+- [Critical Reminders](#critical-reminders) - Essential warnings and best practices
+- [Common Issues](#common-issues-and-workarounds) - Troubleshooting guide
+- [Agent Development](#agent-development-patterns) - Extending the system
+
+## 🚀 Quick Start for AI Agents
+
+**Three Critical Facts**:
+1. **NEVER CANCEL long-running commands** - Composer: 35+ min, Tests: 15+ min, set 60+ min timeouts
+2. **Always use production AI inference** - llama.cpp/BERT required, ZERO tolerance for mocks/placeholders
+3. **Auto-commit enabled** - All changes automatically committed via `auto_commit.py`
+
+**Immediate Productivity**:
+```bash
+# First-time setup (takes 35+ minutes for Composer - NEVER CANCEL)
+cp config.TEMPLATE.inc.php config.inc.php
+cp skz-integration/.env.template skz-integration/.env
+composer --working-dir=lib/pkp install --no-dev  # Answer 'y' to trust prompt
+
+# Start services (3 terminals)
+php -S localhost:8000  # Terminal 1: OJS Core
+cd skz-integration/autonomous-agents-framework && source venv/bin/activate && python src/main.py  # Terminal 2: Agents
+./skz-integration/scripts/health-check.sh  # Terminal 3: Verify all running
+
+# Before committing changes
+./lib/pkp/tools/runAllTests.sh  # 15+ min - NEVER CANCEL
+curl http://localhost:5000/api/v1/agents  # Verify agents respond
+```
+
+**Key Architecture Pattern** - OJS PHP Plugin → Flask API Gateway → 7 Agent Microservices → MySQL
+
+## 🎯 Project Overview
+
+This is a **polyglot academic publishing system** combining:
+- **OJS Core (PHP)**: Traditional open journal system at `/index.php`, `/classes/`, `/lib/pkp/`
+- **7 Autonomous Agents (Python/Flask)**: AI-powered workflow automation at `skz-integration/autonomous-agents-framework/`
+- **PHP-Python Bridge**: OJS plugin at `plugins/generic/skzAgents/` that connects PHP to Python services
+- **React Dashboards**: Workflow visualization at `skz-integration/workflow-visualization-dashboard/`
+- **MySQL Database**: Extended with agent state tables (see `skz-integration/schema/skz-agents.sql`)
+
+### Key Integration Points
+1. **OJS Plugin → Python Agent API**: PHP plugin makes HTTP calls to Flask endpoints (ports 5000-5007)
+2. **Database Sharing**: Both OJS and agents share MySQL database with separate table namespaces
+3. **Event-Driven Communication**: Agents communicate via JSON messages through API gateway pattern
+4. **Environment Toggle**: `USE_PROVIDER_IMPLEMENTATIONS=true/false` switches production/dev modes
+
+### Auto-Commit System
+**IMPORTANT**: This repository has an auto-commit system (`auto_commit.py`) that ensures all changes are committed to GitHub automatically. From `.windsurfrules`:
+> "The first objective is to ensure source control automatically commits to the github repo after each run. The commit must go through no matter what!"
+
+When making changes, verify they're committed by checking git status.
 
 ## Working Effectively
+
+### Environment & Dependencies Verified
+
+**Current Environment (Dev Container - Ubuntu 24.04.3 LTS)**:
+- Python: 3.12.3 (requirement: 3.11+) ✅
+- Node.js: 20.19.4 (requirement: 18+) ✅  
+- npm: 10.8.2 (requirement: 8+) ✅
+- PHP: 8.3.6 (requirement: 7.4+) ✅
+- MySQL: 8.0.42 (requirement: 5.7+) ✅
+- Composer: 2.8.10 ✅
+
+### Critical File Locations
+```
+/workspaces/ojs/
+├── index.php                           # OJS entry point
+├── config.inc.php                      # Main config (copy from config.TEMPLATE.inc.php)
+├── lib/pkp/                           # Core OJS framework (DO NOT MODIFY)
+├── plugins/generic/skzAgents/          # PHP-Python bridge plugin
+│   ├── SKZAgentsPlugin.inc.php        # Main plugin registration
+│   ├── classes/SKZAgentBridge.inc.php # Agent communication bridge
+│   └── classes/SKZAPIGateway.inc.php  # API routing & auth
+├── skz-integration/
+│   ├── .env.template                   # Environment config template
+│   ├── autonomous-agents-framework/    # Main Python agent services
+│   │   ├── src/main.py                # Flask app entry (USE THIS, not main_simple.py)
+│   │   ├── src/models/                # Agent models & database schemas
+│   │   ├── src/routes/                # API endpoints
+│   │   ├── src/services/              # ML, communication, decision engines
+│   │   └── src/providers/             # External integrations (SendGrid, AWS)
+│   ├── seven_agents.py                # Core agent system definitions
+│   ├── schema/skz-agents.sql          # Database extensions for agents
+│   └── scripts/health-check.sh        # System validation script
+└── deploy-skz-integration.sh          # Automated deployment
+```
 
 ### Bootstrap, Build, and Test the Repository
 
@@ -238,6 +326,48 @@ curl http://localhost:5000/api/v1/agents  # Verify agent integration works
 
 ## Architecture Patterns
 
+### The 7 Autonomous Agents System
+
+The SKZ framework implements 7 specialized agents coordinated through a hierarchical/distributed hybrid architecture:
+
+**Agent Roster** (defined in `skz-integration/seven_agents.py`):
+1. **Research Discovery Agent** (Port 5001) - INCI database mining, patent analysis, trend identification
+2. **Submission Assistant Agent** (Port 5002) - Manuscript validation, quality assessment, compliance checks  
+3. **Editorial Orchestration Agent** (Port 5003) - Central coordinator, workflow management, decision support
+4. **Review Coordination Agent** (Port 5004) - Reviewer matching, workload balancing, quality monitoring
+5. **Content Quality Agent** (Port 5005) - Scientific validation, safety assessment, standards enforcement
+6. **Publishing Production Agent** (Port 5006) - Formatting, distribution, regulatory reporting
+7. **Analytics Monitoring Agent** (Port 5007) - Performance tracking, anomaly detection, optimization
+
+**Agent Communication Flow**:
+```
+OJS PHP Plugin (plugins/generic/skzAgents/)
+    ↓ HTTP POST to localhost:5000
+Flask API Gateway (src/routes/manuscript_automation_api.py)
+    ↓ Route to specific agent endpoint
+Individual Agent (src/models/seven_agents.py - AgentType enum)
+    ↓ Process with AI inference (NEVER MOCK - see AI Guidelines below)
+Agent State Update (skz_agent_states table in MySQL)
+    ↓ Return structured JSON response
+OJS receives result and updates workflow
+```
+
+**Agent Action Pattern** (all agents implement this):
+```python
+def execute_action(self, action_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    """Standard agent action signature - NEVER use mocks"""
+    # 1. Validate action type against agent capabilities
+    # 2. Process with real AI inference (llama.cpp, BERT, transformers)
+    # 3. Update agent state in database
+    # 4. Log communication to skz_agent_communications table
+    return {
+        "success": bool,
+        "result": Any,
+        "agent_state": Dict,
+        "performance_metrics": Dict
+    }
+```
+
 ### Multi-Layer Architecture
 1. **OJS Core (PHP)** - Traditional academic publishing system
 2. **SKZ Plugin Layer (PHP)** - Bridge between OJS and agents (`plugins/generic/skzAgents/`)
@@ -315,6 +445,92 @@ See [.github/copilot-prompt-seed.md](./copilot-prompt-seed.md) for foundational 
 - Simplified logic that bypasses actual model inference
 - Development shortcuts that compromise AI functionality
 
+## Testing & Validation Workflows
+
+### Essential Test Commands
+
+**OJS Core Tests** (TAKES 15+ MINUTES - NEVER CANCEL):
+```bash
+./lib/pkp/tools/runAllTests.sh           # Full test suite
+./lib/pkp/tools/runAllTests.sh -C       # PKP class tests only (faster)
+./lib/pkp/tools/runAllTests.sh -c       # App class tests only (faster)
+```
+
+**Agent Framework Tests**:
+```bash
+cd skz-integration/autonomous-agents-framework
+source venv/bin/activate
+python -m pytest tests/                  # Unit tests
+python tests/test_phase2_integration.py  # Integration tests (requires services running)
+python demo_manuscript_automation.py     # End-to-end workflow demo
+```
+
+**Health Check Validation**:
+```bash
+./skz-integration/scripts/health-check.sh  # Comprehensive system check
+# Verifies:
+# - OJS Core (http://localhost:8000)
+# - Agent Framework (http://localhost:5000)
+# - Dashboard builds (dist/ directories exist)
+# - Python virtual environments
+```
+
+### Debugging Agent Issues
+
+**Check Agent Logs**:
+```bash
+# Agent framework logs (Flask app output)
+cd skz-integration/autonomous-agents-framework
+source venv/bin/activate
+python src/main.py  # Watch console for errors
+
+# Check database agent state
+mysql -u root -p -e "SELECT * FROM skz_agent_states ORDER BY last_updated DESC LIMIT 10;"
+
+# Check agent communications
+mysql -u root -p -e "SELECT * FROM skz_agent_communications WHERE success=0 ORDER BY timestamp DESC LIMIT 20;"
+```
+
+**Verify Agent Availability**:
+```bash
+# Test individual agent endpoints
+curl -X POST http://localhost:5000/api/v1/agents/research_discovery/action \
+  -H "Content-Type: application/json" \
+  -d '{"action_type":"analyze_manuscript","data":{}}'
+
+# List all active agents
+curl http://localhost:5000/api/v1/agents | jq .
+```
+
+### Integration Test Scenarios
+
+**ALWAYS test these after making changes**:
+
+1. **OJS-Agent Bridge Test**:
+   ```bash
+   # Start OJS
+   php -S localhost:8000 &
+   # Start agents
+   cd skz-integration/autonomous-agents-framework && source venv/bin/activate && python src/main.py &
+   # Verify plugin loaded
+   curl http://localhost:8000/index.php/index/plugins | grep -i "skz"
+   ```
+
+2. **Complete Workflow Test**:
+   ```bash
+   # Submit test manuscript through OJS UI
+   # Monitor agent processing in logs
+   # Verify workflow stages progress
+   # Check agent state updates in database
+   ```
+
+3. **Dashboard Verification**:
+   ```bash
+   cd skz-integration/workflow-visualization-dashboard
+   npm run build  # Should complete in ~6 seconds
+   ls -la dist/   # Verify build artifacts exist
+   ```
+
 ## Critical Reminders
 
 - **NEVER CANCEL BUILDS:** Composer installs take 35+ minutes, tests take 15+ minutes
@@ -366,6 +582,38 @@ python tests/test_phase2_integration.py
 # End-to-end workflow tests
 python demo_manuscript_automation.py
 ```
+
+## Project-Specific Conventions
+
+### Git Workflow
+- **Auto-commit enabled**: `auto_commit.py` ensures all changes are committed automatically
+- **No submodules**: Despite git submodule commands in docs, NEVER USE submodules (per .windsurfrules)
+- **Commit enforcement**: All commits must succeed - no type checks blocking commits
+
+### Code Quality Standards
+- **NEVER use simplified/mock implementations**: Always use production AI inference (llama.cpp, BERT)
+- **AI fallbacks must be real**: If primary model fails, fallback to quantized models, NOT mocks
+- **Import paths matter**: Always run Python from correct directory with activated venv
+- **Main entry points**: Use `src/main.py` NOT `main_simple.py` for agent framework
+
+### Configuration Patterns
+- **Environment variables**: Copy `.env.template` to `.env` before first run
+- **Config files**: Copy `config.TEMPLATE.inc.php` to `config.inc.php` for OJS
+- **Provider implementations**: Toggle `USE_PROVIDER_IMPLEMENTATIONS=true` for production services
+- **Database schema**: Manually run `skz-integration/schema/skz-agents.sql` after setup
+
+### Development Gotchas
+- **npm requires --legacy-peer-deps**: Due to date-fns version conflicts, always use this flag
+- **Composer prompts are normal**: Answer "y" when asked to trust "cweagans/composer-patches"
+- **Long builds are expected**: 35+ min for Composer, 15+ min for tests - NEVER CANCEL
+- **Python timeouts may occur**: pip install can timeout due to network - just retry
+
+### Service Ports
+- **OJS Core**: 8000 (PHP built-in server)
+- **Agent Framework**: 5000 (Flask API gateway)
+- **Individual Agents**: 5001-5007 (each agent on separate port)
+- **Skin Zone Journal**: 5001 (may conflict with Research Discovery Agent)
+- **Dashboards**: Build to `dist/` directories, serve via separate server
 
 ## Common Error Resolution
 
